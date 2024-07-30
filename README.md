@@ -1,4 +1,4 @@
-# OIB datascience unemployemnent analysis task2
+# OIB DS Task2
 import pandas as pd
 import seaborn as sns
 import matplotlib as mpl
