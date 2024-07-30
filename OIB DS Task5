@@ -1,0 +1,58 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import warnings
+warnings.filterwarnings('ignore')
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+sale_data = pd.read_csv('/content/drive/MyDrive/Advertising.csv')
+
+sale_data.head(15)
+
+sale_data.shape
+sale_data.info()
+sale_data.describe()
+
+sale_data= sale_data.drop('Unnamed: 0',axis=1)
+sale_data
+
+x=sale_data.iloc[:,:-1]
+x
+
+y=sale_data.iloc[:,:-1]
+y
+
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=43)
+x_train
+x_test
+
+y_train
+y_test
+
+x_train=x_train.astype(int)
+x_test=x_test.astype(int)
+y_train=y_train.astype(int)
+y_test=y_test.astype(int)
+
+from sklearn.preprocessing import StandardScaler
+sc=StandardScaler()
+x_train_scaled=sc.fit_transform(x_train)
+x_test_scaled=sc.fit_transform(x_test)
+
+lr=LinearRegression()
+lr.fit(x_train_scaled,y_train)
+
+y_pred=lr.predict(x_test_scaled)
+
+from sklearn.metrics import r2_score
+r2_score(y_test,y_pred)
+
+import matplotlib.pyplot as plt
+plt.scatter(x_test_scaled,y_pred,c='r')
