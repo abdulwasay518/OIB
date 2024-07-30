@@ -28,13 +28,10 @@ unemp_data['state'].value_counts().idxmin()
 import pandas as pd
 import calendar
 
-# Assuming unemp_data is your DataFrame with 'date' column
 unemp_data['date'] = pd.to_datetime(unemp_data['date'], dayfirst=True)
 
-# Ensure month_int column has integer values or NaN
 unemp_data['month_int'] = unemp_data['date'].dt.month
 
-# Use lambda function with conditional to handle NaN values
 unemp_data['month'] = unemp_data['month_int'].apply(lambda x: calendar.month_abbr[int(x)] if pd.notnull(x) else '')
 
 unemp_data['month'].value_counts().idxmax()
