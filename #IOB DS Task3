@@ -1,0 +1,41 @@
+#IOB DS Task3
+import pandas as pd
+import numpy as np
+from sklearn import linear_model
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+data = pd.read_csv('/content/drive/MyDrive/car_data.csv')
+
+inputs = data.drop(['Car_Name', 'Owner', 'Selling_type'], axis='columns')
+target=data.Selling_Price
+inputs
+
+from sklearn.preprocessing import LabelEncoder
+numerics = LabelEncoder()
+
+inputs['fuel_n']=numerics.fit_transform(inputs['Fuel_Type'])
+inputs['Transmission_n']=numerics.fit_transform(inputs['Transmission'])
+inputs
+
+inputs_n = inputs.drop(['Fuel_Type', 'Transmission','Selling_Price'], axis='columns')
+inputs_n
+
+model=linear_model.LinearRegression()
+model.fit(inputs_n,target)
+
+import matplotlib.pyplot as plt
+
+trainig_data_prediction=model.predict(inputs_n)
+
+from sklearn import metrics
+
+error_score=metrics.r2_score(target,trainig_data_prediction)
+print("R squared error:",error_score)
+
+plt.scatter(target,trainig_data_prediction)
+plt.xlabel("Actual price")
+plt.ylabel("Predicted price")
+plt.title("Actual price vs Predicted price")
+plt.show()
